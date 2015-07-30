@@ -8,4 +8,4 @@ Super class to create reusable views from a .xib
 * Create a NSObject with the same name, `CustomView.h` and `CustomView.m`
 * Set the `CustomView.h` super class as `JAXibView`
 * In the `.xib` file set the `File's Owner` Class like the class extending JAXibView
-* Now you can use it from Interace Builder and from code.
+* Now you can use it from Interface Builder and from code.
