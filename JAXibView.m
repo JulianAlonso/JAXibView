@@ -10,7 +10,7 @@
 
 @interface JAXibView ()
 
-@property (nonatomic, strong) UIView *constainerView;
+@property (nonatomic, strong) UIView *containerView;
 @property (nonatomic, strong) NSMutableArray *customConstraints;
 
 @end
@@ -42,11 +42,25 @@
     return self;
 }
 
+- (instancetype)init
+{
+    self = [super initWithFrame:CGRectZero];
+    
+    if (self)
+    {
+        [self commonInit];
+    }
+    
+    return self;
+}
+
 - (void)commonInit
 {
     _customConstraints = [NSMutableArray new];
     UIView *view = nil;
-    NSArray *objects = [[NSBundle mainBundle] loadNibNamed:NSStringFromClass([self class]) owner:self options:nil];
+    NSArray *objects = [[NSBundle bundleForClass:[self class]] loadNibNamed:NSStringFromClass([self class]) owner:self options:nil];
+    
+    self.backgroundColor = [UIColor clearColor];
     
     for (id object in objects)
     {
@@ -59,12 +73,11 @@
     
     if (view)
     {
-        _constainerView = view;
+        _containerView = view;
         view.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview:view];
         [self setNeedsUpdateConstraints];
     }
-    
 }
 
 #pragma mark - Update methods.
@@ -73,9 +86,9 @@
     [self removeConstraints:self.customConstraints];
     [self.customConstraints removeAllObjects];
     
-    if (self.constainerView)
+    if (self.containerView)
     {
-        UIView *view = self.constainerView;
+        UIView *view = self.containerView;
         
         NSDictionary *views = NSDictionaryOfVariableBindings(view);
         
