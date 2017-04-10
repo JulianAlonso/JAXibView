@@ -2,9 +2,10 @@
 //  XibView.swift
 //
 //  Created by Julián Alonso Carballo on 6/10/16.
-//  MIT License
+//  Copyright © 2016 com.Julian. All rights reserved.
+//
 
-import Foundation
+import UIKit
 
 @IBDesignable
 class XibView: UIView {
@@ -27,8 +28,21 @@ class XibView: UIView {
         self.commonInit()
     }
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.configure()
+    }
+    
+    override func prepareForInterfaceBuilder() {
+        super.prepareForInterfaceBuilder()
+        self.configure()
+    }
+    
+    //Override this if you want execute custom code after init 🤗
+    func configure() { }
+    
     func commonInit() {
-        self.backgroundColor = UIColor.clear
+        self.backgroundColor = .clear
         let selfType = type(of: self)
         let objects = Bundle(for: selfType).loadNibNamed("\(selfType)", owner: self, options: nil)
         var view: UIView? = nil
@@ -41,14 +55,11 @@ class XibView: UIView {
         }
         
         if let view = view {
-            
             self.containerView = view
             view.translatesAutoresizingMaskIntoConstraints = false
             self.addSubview(view)
             self.setNeedsUpdateConstraints()
-            
         }
-        
     }
     
     //MARK: - Update
@@ -67,4 +78,12 @@ class XibView: UIView {
         super.updateConstraints()
     }
     
+    func superLayout() {
+        var view = self.superview
+        while view?.superview != nil {
+            view = view?.superview
+        }
+        view?.setNeedsLayout()
+        view?.layoutIfNeeded()
+    }
 }
